@@ -19,9 +19,9 @@ class Transactions {
     private TopBalanceTransaction topBalanceTransaction;
     private RelatedCustomerTransaction relatedCustomerTransaction;
 
-    Transactions(int index) {
+    Transactions(String ip) {
         PGSimpleDataSource ds = new PGSimpleDataSource();
-        ds.setServerName("192.168.220.112");
+        ds.setServerName(ip);
         ds.setPortNumber(26257);
         ds.setDatabaseName("project");
         ds.setUser("test");

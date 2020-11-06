@@ -310,61 +310,61 @@ class OrderTransaction {
 
     }
 
-    public static void main(String[] args) {
-        PGSimpleDataSource ds = new PGSimpleDataSource();
-        ds.setServerName("192.168.220.112");
-        ds.setPortNumber(26257);
-        ds.setDatabaseName("project");
-        ds.setUser("test");
-        ds.setPassword(null);
-        //OrderTransaction orderTransaction = null;
-        //PaymentTransaction paymentTransaction = null;
-        //OrderStatusTransaction orderStatusTransaction = null;
-        //StockLevelTransaction stockLevelTransaction = null;
-        //DeliveryTransaction deliveryTransaction = null;
-        //PopularItemTransaction popularItemTransaction = null;
-        //TopBalanceTransaction topBalanceTransaction = null;
-        RelatedCustomerTransaction relatedCustomerTransaction = null;
-        try {
-            //orderTransaction = new OrderTransaction(ds.getConnection());
-            //paymentTransaction = new PaymentTransaction(ds.getConnection());
-            //stockLevelTransaction = new StockLevelTransaction(ds.getConnection());
-            //deliveryTransaction = new DeliveryTransaction(ds.getConnection());
-            //popularItemTransaction = new PopularItemTransaction(ds.getConnection());
-            //topBalanceTransaction = new TopBalanceTransaction(ds.getConnection());
-            relatedCustomerTransaction = new RelatedCustomerTransaction(ds.getConnection());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        //String[] test = new String[]{
-        //        "68195,1,1" ,
-        //        "26567,1,5",
-        //        "4114,1,7",
-        //        "69343,1,3"};
-        ////int itemCount = 4;
-        //List<List<Integer>> itemOrders = new ArrayList<>();
-        ////List<Integer> order1 = new ArrayList<>();
-        //for (int i = 0; i < test.length; i++) {
-        //    String[] orderString = test[i].split(",");
-        //    List<Integer> order = new ArrayList<>();
-        //    for (String s : orderString) {
-        //        order.add(Integer.parseInt(s));
-        //    }
-        //    itemOrders.add(order);
-        //}
-
-        //paymentTransaction.processPayment(1,2,30, (float) 723.94);
-        //paymentTransaction.processPayment(1,2,894, (float) 1111.01);
-
-        //orderStatusTransaction.processOrderStatus(1, 1, 2207);
-        //orderStatusTransaction.processOrderStatus(1, 1, 795);
-        //stockLevelTransaction.processStockLevel(1,2,12,43);
-        //stockLevelTransaction.processStockLevel(1,1,13,43);
-        //deliveryTransaction.processDelivery(1, 10);
-        //deliveryTransaction.processDelivery(1, 9);
-        //popularItemTransaction.popularItem(1, 2, 43);
-        //topBalanceTransaction.topBalance();
-        relatedCustomerTransaction.processRelatedCustomer(1,1,2684);
-    }
+    //public static void main(String[] args) {
+    //    PGSimpleDataSource ds = new PGSimpleDataSource();
+    //    ds.setServerName("192.168.220.112");
+    //    ds.setPortNumber(26257);
+    //    ds.setDatabaseName("project");
+    //    ds.setUser("test");
+    //    ds.setPassword(null);
+    //    //OrderTransaction orderTransaction = null;
+    //    //PaymentTransaction paymentTransaction = null;
+    //    //OrderStatusTransaction orderStatusTransaction = null;
+    //    //StockLevelTransaction stockLevelTransaction = null;
+    //    //DeliveryTransaction deliveryTransaction = null;
+    //    //PopularItemTransaction popularItemTransaction = null;
+    //    //TopBalanceTransaction topBalanceTransaction = null;
+    //    RelatedCustomerTransaction relatedCustomerTransaction = null;
+    //    try {
+    //        //orderTransaction = new OrderTransaction(ds.getConnection());
+    //        //paymentTransaction = new PaymentTransaction(ds.getConnection());
+    //        //stockLevelTransaction = new StockLevelTransaction(ds.getConnection());
+    //        //deliveryTransaction = new DeliveryTransaction(ds.getConnection());
+    //        //popularItemTransaction = new PopularItemTransaction(ds.getConnection());
+    //        //topBalanceTransaction = new TopBalanceTransaction(ds.getConnection());
+    //        relatedCustomerTransaction = new RelatedCustomerTransaction(ds.getConnection());
+    //    } catch (SQLException e) {
+    //        e.printStackTrace();
+    //    }
+    //
+    //    //String[] test = new String[]{
+    //    //        "68195,1,1" ,
+    //    //        "26567,1,5",
+    //    //        "4114,1,7",
+    //    //        "69343,1,3"};
+    //    ////int itemCount = 4;
+    //    //List<List<Integer>> itemOrders = new ArrayList<>();
+    //    ////List<Integer> order1 = new ArrayList<>();
+    //    //for (int i = 0; i < test.length; i++) {
+    //    //    String[] orderString = test[i].split(",");
+    //    //    List<Integer> order = new ArrayList<>();
+    //    //    for (String s : orderString) {
+    //    //        order.add(Integer.parseInt(s));
+    //    //    }
+    //    //    itemOrders.add(order);
+    //    //}
+    //
+    //    //paymentTransaction.processPayment(1,2,30, (float) 723.94);
+    //    //paymentTransaction.processPayment(1,2,894, (float) 1111.01);
+    //
+    //    //orderStatusTransaction.processOrderStatus(1, 1, 2207);
+    //    //orderStatusTransaction.processOrderStatus(1, 1, 795);
+    //    //stockLevelTransaction.processStockLevel(1,2,12,43);
+    //    //stockLevelTransaction.processStockLevel(1,1,13,43);
+    //    //deliveryTransaction.processDelivery(1, 10);
+    //    //deliveryTransaction.processDelivery(1, 9);
+    //    //popularItemTransaction.popularItem(1, 2, 43);
+    //    //topBalanceTransaction.topBalance();
+    //    relatedCustomerTransaction.processRelatedCustomer(1,1,2684);
+    //}
 }
