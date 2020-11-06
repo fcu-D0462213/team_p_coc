@@ -435,7 +435,7 @@ class BasicExampleDAO {
             String[] lineData;
             try {
                 System.out.println("Start loading data for table : warehouses");
-                FileReader fr = new FileReader("node1/extern/warehouse.csv");
+                FileReader fr = new FileReader("/temp/team_p/node1/extern/warehouse.csv");
                 BufferedReader bf = new BufferedReader(fr);
                 while ((line = bf.readLine()) != null) {
                     lineData = line.split(",");
@@ -479,7 +479,7 @@ class BasicExampleDAO {
 
             try {
                 System.out.println("Start loading data for table : districts");
-                fr = new FileReader("node1/extern/district-aug.csv");
+                fr = new FileReader("/temp/team_p/node1/extern/district-aug.csv");
                 bf = new BufferedReader(fr);
 
                 while ((line = bf.readLine()) != null) {
