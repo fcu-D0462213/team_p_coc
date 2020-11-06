@@ -67,32 +67,18 @@ public class PaymentTransaction {
 
     }
 
-    /* Start of public methods */
-
-    /**
-     * @param wId     : used for customer identifier
-     * @param dId     : used for customer identifier
-     * @param cId     : used for customer identifier
-     * @param payment : payment amount
-     */
     void processPayment(int wId, int dId, int cId, float payment) {
         BigDecimal payment_decimal = new BigDecimal(payment);
 
-        // Update the warehouse C_W_ID by incrementing W_YTD by PAYMENT
         selectWarehouse(wId);
         updateWarehouseYTD(wId, payment_decimal);
-        // Update the district (C_W_ID,C_D_ID) by incrementing D_YTD by PAYMENT
         selectDistrict(wId, dId);
         updateDistrictYTD(wId, dId, payment_decimal);
-        // Update the customer (C_W_ID, C_D_ID, C_ID) as follows:
         selectCustomer(wId, dId, cId);
         updateCustomerByPayment(wId, dId, cId, payment_decimal);
         outputPaymentResults(wId,dId,cId,payment);
     }
 
-    /*  End of public methods */
-
-    /*  Start of private methods */
 
     private void selectWarehouse(final int wId) {
         try {
@@ -115,7 +101,6 @@ public class PaymentTransaction {
             if (selectDistrictStmt.execute()) {
                 ResultSet resultSet = selectDistrictStmt.getResultSet();
                 targetDistrict = resultSet;
-                //session.execute(selectDistrictStmt.bind(w_id, d_id));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -169,7 +154,6 @@ public class PaymentTransaction {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        //session.execute(updateDistrictYTDStmt.bind(d_ytd, w_id, d_id));
     }
 
     private void updateCustomerByPayment(final int w_id, final int d_id, final int c_id, final BigDecimal payment) {
@@ -191,12 +175,10 @@ public class PaymentTransaction {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        //session.execute(updateCustomerByPaymentStmt.bind(c_balance, c_ytd_payment, c_payment_cnt, w_id, d_id, c_id));
     }
 
     private void outputPaymentResults(int wId, int dId, int cId,float payment) {
         try {
-            //targetWarehouse.next();
             System.out.println(String.format(MESSAGE_WAREHOUSE,
                     targetWarehouse.getString("w_street_1"),
                     targetWarehouse.getString("w_street_2"),
@@ -208,7 +190,6 @@ public class PaymentTransaction {
         }
 
         try {
-            //targetDistrict.next();
             System.out.println(String.format(MESSAGE_DISTRICT,
                     targetDistrict.getString("d_street_1"),
                     targetDistrict.getString("d_street_2"),
@@ -220,7 +201,6 @@ public class PaymentTransaction {
         }
 
         try {
-            //targetCustomer.next();
             System.out.println(String.format(MESSAGE_CUSTOMER,
                     wId,dId,cId,
 

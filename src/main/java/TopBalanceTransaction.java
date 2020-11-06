@@ -8,8 +8,7 @@ import java.util.List;
 
 
 public class TopBalanceTransaction {
-    /* popular items */
-    //private PreparedStatement selectTopBalanceStmt;
+
     private PreparedStatement selectCustomerNameStmt;
 
     public Connection connection;
@@ -22,7 +21,6 @@ public class TopBalanceTransaction {
     TopBalanceTransaction(Connection connection) {
         this.connection = connection;
         try {
-            //selectTopBalanceStmt = connection.prepareStatement(SELECT_TOP_BALANCE);
             selectCustomerNameStmt = connection.prepareStatement(SELECT_CUSTOMER_NAME);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -40,7 +38,6 @@ public class TopBalanceTransaction {
                 customer.next();
                 System.out.println("customer name: " + customer.getString("c_first") + " "
                         + customer.getString("c_middle") + " " + customer.getString("c_last"));
-                //Row cus = topCustomers.get(i);
                 System.out.println("customer balance: " + customer.getBigDecimal("c_balance").floatValue());
                 System.out.println("Warehouse name: " + customer.getString("c_w_name") + ",District name: " + customer.getString("c_d_name"));
             } catch (SQLException e) {
@@ -49,7 +46,6 @@ public class TopBalanceTransaction {
         }
     }
 
-    /*  End of public methods */
 
 
 }

@@ -39,7 +39,7 @@ public class BasicExample {
 
         // Configure the database connection.
         PGSimpleDataSource ds = new PGSimpleDataSource();
-        ds.setServerName("192.168.220.112");
+        ds.setServerName("192.168.48.184");
         ds.setPortNumber(26257);
         ds.setDatabaseName("project");
         ds.setUser("test");
@@ -435,7 +435,7 @@ class BasicExampleDAO {
             String[] lineData;
             try {
                 System.out.println("Start loading data for table : warehouses");
-                FileReader fr = new FileReader("project-files2/data-files/warehouse.csv");
+                FileReader fr = new FileReader("node1/extern/warehouse.csv");
                 BufferedReader bf = new BufferedReader(fr);
                 while ((line = bf.readLine()) != null) {
                     lineData = line.split(",");
@@ -475,11 +475,11 @@ class BasicExampleDAO {
             String[] lineData;
             FileReader fr;
             BufferedReader bf;
-            Map<Double<Integer, Integer>, Integer> orderMap = new HashMap<>();
+            //Map<Double<Integer, Integer>, Integer> orderMap = new HashMap<>();
 
             try {
                 System.out.println("Start loading data for table : districts");
-                fr = new FileReader("project-files2/data-files/district-aug.csv");
+                fr = new FileReader("node1/extern/district-aug.csv");
                 bf = new BufferedReader(fr);
 
                 while ((line = bf.readLine()) != null) {
@@ -518,7 +518,7 @@ class BasicExampleDAO {
                 + " C_DISCOUNT, C_BALANCE, C_YTD_PAYMENT, C_PAYMENT_CNT, C_DELIVERY_CNT,"
                 + " C_DATA, C_W_NAME, C_D_NAME) "
                 + "    CSV DATA ("
-                + "      'nodelocal:///opt/training/project-files2/data-files/customer-aug.csv'" +
+                + "      'nodelocal:///customer-aug.csv'" +
                 "    );";
         try {
             Connection connection = ds.getConnection();
@@ -535,8 +535,8 @@ class BasicExampleDAO {
                 + " O_W_ID, O_D_ID, O_ID, "
                 + " O_C_ID, O_CARRIER_ID, O_OL_CNT, O_ALL_LOCAL, O_ENTRY_D)"
                 + "    CSV DATA ("
-                + "      'nodelocal:///opt/training/project-files2/data-files/order.csv'" +
-                "    )  WITH nullif = 'null';";
+                + "      'nodelocal:///order.csv'" +
+                "    )  WITH nullif = '';";
         try {
             Connection connection = ds.getConnection();
             System.out.println("Start loading data for table : orders");
@@ -552,7 +552,7 @@ class BasicExampleDAO {
                 + " I_ID, I_NAME, I_PRICE, "
                 + " I_IM_ID, I_DATA)"
                 + "    CSV DATA ("
-                + "      'nodelocal:///opt/training/project-files2/data-files/item.csv'" +
+                + "      'nodelocal:///item.csv'" +
                 "    );";
         try {
             Connection connection = ds.getConnection();
@@ -571,7 +571,7 @@ class BasicExampleDAO {
                 + " OL_AMOUNT, OL_SUPPLY_W_ID, OL_QUANTITY, "
                 + " OL_DIST_INFO, OL_I_NAME) "
                 + "    CSV DATA ("
-                + "      'nodelocal:///opt/training/project-files2/data-files/order-line-aug.csv'" +
+                + "      'nodelocal:///order-line-aug.csv'" +
                 "    ) WITH nullif = '';";
         try {
             Connection connection = ds.getConnection();
@@ -593,7 +593,7 @@ class BasicExampleDAO {
                 + " S_DIST_10, S_DATA, S_I_NAME, "
                 + " S_I_PRICE) "
                 + "    CSV DATA ("
-                + "      'nodelocal:///opt/training/project-files2/data-files/stock-aug.csv'" +
+                + "      'nodelocal:///stock-aug.csv'" +
                 "    );";
         try {
             Connection connection = ds.getConnection();
@@ -1155,21 +1155,21 @@ class Triple<T, U, V> {
         this.third = third;
     }
 }*/
-class Double<T, U> {
-    final T first;
-    final U second;
-
-
-    Double(T first, U second) {
-        this.first = first;
-        this.second = second;
-    }
-
-    public T getFirst() {
-        return first;
-    }
-
-    public U getSecond() {
-        return second;
-    }
-}
+//class Double<T, U> {
+//    final T first;
+//    final U second;
+//
+//
+//    Double(T first, U second) {
+//        this.first = first;
+//        this.second = second;
+//    }
+//
+//    public T getFirst() {
+//        return first;
+//    }
+//
+//    public U getSecond() {
+//        return second;
+//    }
+//}

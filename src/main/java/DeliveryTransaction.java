@@ -53,12 +53,6 @@ public class DeliveryTransaction {
 
     }
 
-    /* Start of public methods */
-
-    /**
-     * @param wId       : used for customer identifier
-     * @param carrierId : used for carrier identifier
-     */
     void processDelivery(int wId, int carrierId) {
         for (int dId = 1; dId <= 10; dId++) {
             Integer next_id = processSmallestOrder(wId, dId);
@@ -76,9 +70,6 @@ public class DeliveryTransaction {
         }
     }
 
-    /*  End of public methods */
-
-    /*  Start of private methods */
 
     private Integer processSmallestOrder(final int w_id, final int d_id) {
         int next_order_id;
@@ -103,12 +94,6 @@ public class DeliveryTransaction {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        //ResultSet resultSet = session.execute(selectSmallestOrderStmt.bind(w_id, d_id));
-        //List<Row> orders = resultSet.all();
-        //
-        //if(!orders.isEmpty()) {
-        //    targetOrder = orders.get(0);
-        //}
         return next_deliver_id;
     }
 
@@ -151,19 +136,6 @@ public class DeliveryTransaction {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        //ResultSet resultSet = session.execute(selectOrderLinesStmt.bind(w_id, d_id, o_id));
-        //List<Row> resultRow = resultSet.all();
-        //
-        //
-        //for (int i=0; i<resultRow.size(); i++) {
-        //    Row orderLine = resultRow.get(i);
-        //    BigDecimal partial_sum = orderLine.getDecimal("ol_amount");
-        //    int ol_number = orderLine.getInt("ol_number");
-        //
-        //    sum = sum.add(partial_sum);
-        //
-        //    session.execute(updateOrderLineStmt.bind(ol_delivery_d, w_id, d_id, o_id, ol_number));
-        //}
 
         return sum;
     }
@@ -203,5 +175,4 @@ public class DeliveryTransaction {
 
     }
 
-    /*  End of private methods */
 }

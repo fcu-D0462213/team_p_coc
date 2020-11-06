@@ -1,6 +1,4 @@
 
-
-
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -16,7 +14,6 @@ public class OrderStatusTransaction {
     }
 
     void processOrderStatus(int c_W_ID, int c_D_ID, int c_ID) {
-        //get customer's name and
         String getCustomerName = "SELECT C_FIRST, C_MIDDLE, C_LAST, C_BALANCE FROM " + "customer " +
                 "WHERE C_W_ID = " + c_W_ID + " AND C_D_ID = " + c_D_ID + " AND C_ID = " + c_ID;
         String firstName = null;
@@ -29,7 +26,6 @@ public class OrderStatusTransaction {
         try {
             ResultSet resultSet = connection.createStatement().executeQuery(getCustomerName);
             resultSet.next();
-            //Row row1 = session.execute(getCustomerName).one();
 
             firstName = resultSet.getString("C_FIRST");
             middleName = resultSet.getString("C_MIDDLE");
@@ -39,7 +35,6 @@ public class OrderStatusTransaction {
             e.printStackTrace();
         }
 
-        //print out customer name and last order info
         System.out.println("Customer's first name is: " + firstName + ", middle name is: " + middleName + ", last name is: " + lastName + ".");
         System.out.println("Customer's balance is: " + balance + ".");
 
@@ -61,7 +56,6 @@ public class OrderStatusTransaction {
         System.out.println("Last order carrier identifier is: " + carrier_id + ".");
         System.out.println("=======Item Info is below.======");
 
-        //for each item in the last order
         String getItems = "SELECT OL_I_ID, OL_DELIVERY_D, OL_AMOUNT, OL_SUPPLY_W_ID, OL_QUANTITY FROM " + " order_line " +
                 "WHERE OL_W_ID = " + c_W_ID + " AND OL_D_ID = " + c_D_ID + " AND OL_O_ID = " + last_order;
 
@@ -81,7 +75,6 @@ public class OrderStatusTransaction {
                 deliveryData = resultSet2.getTimestamp("OL_DELIVERY_D");
 
 
-                //for each item in the last order, print out the info
                 System.out.println("Item number: " + itemID);
                 System.out.println("Supplying warehouse number: " + supplierWarehouse);
                 System.out.println("Quantity ordered: " + quantity);

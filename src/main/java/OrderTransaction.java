@@ -1,11 +1,7 @@
-
-
-import com.sun.rowset.internal.Row;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import java.math.BigDecimal;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -71,21 +67,9 @@ class OrderTransaction {
 
     }
 
-    /**
-     * New Order Transaction
-     *
-     * @param cId        : used for customer identifier
-     * @param wId        : used for customer identifier
-     * @param dId        : used for customer identifier
-     * @param itemOrders : each itemOrder consist of:
-     *                   - itemId: item number for item
-     *                   - warehouseId: supplier warehouse for item
-     *                   - quantity: quantity ordered for item
-     */
     void processOrder(int cId, int wId, int dId, List<List<Integer>> itemOrders) {
         ResultSet district = getDistrict(wId, dId);
         ResultSet customer = getCustomer(wId, dId, cId);
-        //ResultSet district = getDistrict(wId, dId);
         ResultSet warehouse = getWarehouse(wId);
 
         try {
@@ -110,7 +94,6 @@ class OrderTransaction {
 
         updateDistrictNextOId(nextOId + 1, wId, dId);
 
-        // let O_ENTRY_D = current date and time
         Date curDate = new Date();
         BigDecimal olCount = new BigDecimal(itemOrders.size());
         BigDecimal allLocal = new BigDecimal(1);
@@ -121,7 +104,6 @@ class OrderTransaction {
         }
 
         createNewOrder(nextOId, dId, wId, cId, curDate, olCount, allLocal);
-        //updateCustomerOrder(nextOId, curDate, wId, dId, cId);
 
         double totalAmount = 0;
         for (int i = 0; i < itemOrders.size(); i++) {
@@ -167,8 +149,6 @@ class OrderTransaction {
                 e.printStackTrace();
             }
 
-
-            // log
             System.out.printf(
                     "itemId: %d, itemName: %s, warehouseId: %d, quantity: %d, OL_AMOUNT: %f, S_QUANTITY: %f \n",
                     iId, itemName, iWId, quantity, itemAmount, adjQuantity);
@@ -284,7 +264,6 @@ class OrderTransaction {
             e.printStackTrace();
         }
 
-        //session.execute(updateDistrictNextOIdStmt.bind(nextOId, wId, dId));
     }
 
     private ResultSet getCustomer(int wId, int dID, int cId) {
@@ -344,14 +323,16 @@ class OrderTransaction {
         //StockLevelTransaction stockLevelTransaction = null;
         //DeliveryTransaction deliveryTransaction = null;
         //PopularItemTransaction popularItemTransaction = null;
-        TopBalanceTransaction topBalanceTransaction = null;
+        //TopBalanceTransaction topBalanceTransaction = null;
+        RelatedCustomerTransaction relatedCustomerTransaction = null;
         try {
             //orderTransaction = new OrderTransaction(ds.getConnection());
             //paymentTransaction = new PaymentTransaction(ds.getConnection());
             //stockLevelTransaction = new StockLevelTransaction(ds.getConnection());
             //deliveryTransaction = new DeliveryTransaction(ds.getConnection());
             //popularItemTransaction = new PopularItemTransaction(ds.getConnection());
-            topBalanceTransaction = new TopBalanceTransaction(ds.getConnection());
+            //topBalanceTransaction = new TopBalanceTransaction(ds.getConnection());
+            relatedCustomerTransaction = new RelatedCustomerTransaction(ds.getConnection());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -383,6 +364,7 @@ class OrderTransaction {
         //deliveryTransaction.processDelivery(1, 10);
         //deliveryTransaction.processDelivery(1, 9);
         //popularItemTransaction.popularItem(1, 2, 43);
-        topBalanceTransaction.topBalance();
+        //topBalanceTransaction.topBalance();
+        relatedCustomerTransaction.processRelatedCustomer(1,1,2684);
     }
 }

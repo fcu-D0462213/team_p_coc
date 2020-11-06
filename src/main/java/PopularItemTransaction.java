@@ -16,7 +16,7 @@ public class PopularItemTransaction {
     private PreparedStatement selectOrderWithItemStmt;
 
     public Connection connection;
-    /* popular items */
+
     private static final String SELECT_LAST_ORDERS =
             "SELECT o_id, o_c_id, o_entry_d "
                     + "FROM orders "
@@ -26,11 +26,6 @@ public class PopularItemTransaction {
             "SELECT c_first, c_middle, c_last "
                     + "FROM customer "
                     + "WHERE c_w_id = ? AND c_d_id = ? AND c_id = ? ;";
-
-    //private static final String SELECT_MAX_QUANTITY =
-    //        "SELECT MAX(ol_quantity) as ol_quantity "
-    //                + "FROM order_lines "
-    //                + "WHERE ol_w_id = ? AND ol_d_id = ? AND ol_o_id = ?;";
     private static final String SELECT_TOP_QUANTITY =
             "SELECT ol_quantity "
                     + "FROM order_line "
@@ -42,7 +37,6 @@ public class PopularItemTransaction {
 
     PopularItemTransaction(Connection connection) {
         this.connection = connection;
-        /* popular items */
         try {
             selectLastOrdersStmt = connection.prepareStatement(SELECT_LAST_ORDERS);
             selectCustomerStmt = connection.prepareStatement(SELECT_CUSTOMER);
@@ -53,24 +47,13 @@ public class PopularItemTransaction {
         }
     }
 
-    /* Start of public methods */
-
-    /**
-     * @param wId         : used for customer identifier
-     * @param dId         : used for customer identifier
-     * @param numOfOrders : number of lastest order to be considered
-     */
 
     void popularItem(int wId, int dId, int numOfOrders) {
         ResultSet lastOrders = selectLastOrders(wId, dId, numOfOrders);
-        //List<List<ResultSet>> popularItemOfOrder = new ArrayList();
         HashMap<Integer, Doubles<String, Integer>> popularItems = new HashMap<>();
         ResultSet popularItem = null;
         ResultSet custom = null;
         int order_cnt = 0;
-        //List<Triple<Integer, Integer, String>> orderInfos = new ArrayList<>();
-        //List<Triple<String, String, String>> customerInfos = new ArrayList<>();
-        //List<Doubles<String, Float>> itemInfos = new ArrayList<>();
 
         System.out.println("District Identifier WId: " + wId + ",DId: " + dId);
         System.out.println("number of orders been examined: " + numOfOrders);
@@ -81,9 +64,6 @@ public class PopularItemTransaction {
                 String orderEntryDay = lastOrders.getTimestamp("o_entry_d").toString();
                 System.out.println("order Id: " + orderId + ", entry date and time: " + orderEntryDay);
 
-                //Triple<Integer, Integer, String> orderInfo;
-
-                //Triple<String, String, String> customerInfo;
                 popularItem = getPopularItem(wId, dId, orderId);
                 custom = getCustomer(wId, dId, orderCId);
                 custom.next();
@@ -92,12 +72,6 @@ public class PopularItemTransaction {
                 String c_middle = custom.getString("c_middle");
                 String c_last = custom.getString("c_last");
                 System.out.println("customer name: " + c_first + " " + c_middle + " " + c_last);
-                //customerInfo = new Triple<>(c_first, c_middle, c_last);
-                //orderInfo = new Triple<>(orderId, orderCId, orderEntryDay);
-
-
-                //orderInfos.add(orderInfo);
-                //customerInfos.add(customerInfo);
 
                 System.out.println("============ popular item info ============");
                 while (popularItem.next()) {
@@ -107,8 +81,7 @@ public class PopularItemTransaction {
                     System.out.println("item name: " + itemName);
                     System.out.println("item quantity: " + itemQuantity);
 
-                    //Doubles<String, Float> itemInfo = new Doubles<>(itemName, itemQuantity);
-                    //itemInfos.add(itemInfo);
+
                     if (!popularItems.containsKey(itemId)) {
                         Doubles<String, Integer> itemDouble = new Doubles<>(itemName, 1);
                         //System.out.println("second when add key:" + itemDouble.second);
@@ -123,16 +96,14 @@ public class PopularItemTransaction {
                     }
                 }
                 System.out.println("==========================================");
-                //Triple<List, List, List> oderInfoTri = new Triple<>(orderInfos, customerInfos, itemInfos);
 
                 order_cnt = lastOrders.getRow();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        //List<Doubles<String, Float>> percentageInfos = new ArrayList<>();
         System.out.println("============ percentage info ============");
-        for (Map.Entry<Integer, Doubles<String, Integer>> entry :popularItems.entrySet()) {
+        for (Map.Entry<Integer, Doubles<String, Integer>> entry : popularItems.entrySet()) {
             //System.out.println("before itemINfo");
             Doubles<String, Integer> itemInfo = entry.getValue();
             //System.out.println("print itemINfo" +itemINfo);
@@ -141,15 +112,13 @@ public class PopularItemTransaction {
             //System.out.println("second:"+itemNum+" & order_cnt:"+order_cnt);
             //float percentage = itemInfo.getSecond() / order_cnt;
             System.out.println("item name: " + itemNameInfo);
-            System.out.println(String.format("percentage: %.3f", (float)itemNum / order_cnt));
+            System.out.println(String.format("percentage: %.3f", (float) itemNum / order_cnt));
 
         }
         System.out.println("==========================================");
     }
 
 
-    /*  End of public methods */
-    /*  popular items */
     private ResultSet selectLastOrders(final int wId, final int dId, final int numOfOrders) {
         ResultSet resultSet = null;
         try {
@@ -189,7 +158,6 @@ public class PopularItemTransaction {
             selectTopQuantityStmt.setInt(3, orderId);
             selectTopQuantityStmt.execute();
             ResultSet resultSet1 = selectTopQuantityStmt.getResultSet();
-            //ResultSet resultSet1 = session.execute(selectMaxQuantityStmt.bind(wId, dId, orderId));
             resultSet1.next();
 
             BigDecimal maxQuantity = resultSet1.getBigDecimal("ol_quantity");
@@ -204,86 +172,9 @@ public class PopularItemTransaction {
             e.printStackTrace();
         }
 
-        //ResultSet resultSet2 = session.execute(selectPopularItemStmt.bind(wId, dId, orderId, maxQuantity));
-        //List<Row> popularItem = resultSet2.all();
         return resultSet2;
     }
 
-//    private void getItemName(final int itemId){
-//        ResultSet resultSet = session.execute(selectItemName.bind(itemId);
-//        List<Row> itemName = resultSet.all();
-//        return itemName.get(0);
-//    }
-
-    //private int getPercentage(final int wId, final int dId, final ResultSet lastOrders, final int itemId) {
-    //    int count = 0;
-    //    try {
-    //        while (lastOrders.next()) {
-    //            int orderId = lastOrders.getInt("o_id");
-    //            selectOrderWithItemStmt.setInt(1, wId);
-    //            selectOrderWithItemStmt.setInt(2, dId);
-    //            selectOrderWithItemStmt.setInt(3, orderId);
-    //            selectOrderWithItemStmt.setInt(4, itemId);
-    //            selectOrderWithItemStmt.execute();
-    //            ResultSet resultSet = selectOrderWithItemStmt.getResultSet();
-    //            if (resultSet.next()) {
-    //                count++;
-    //            }
-    //        }
-    //    } catch (SQLException e) {
-    //        e.printStackTrace();
-    //    }
-    //    //for (int i = 0; i < lastOrders.size(); i++) {
-    //    //    int orderId = lastOrders.get(i).getInt("o_id");
-    //    //    ResultSet resultSet = session.execute(selectOrderWithItemStmt.bind(wId, dId, orderId, itemId));
-    //    //    List<Row> result = resultSet.all();
-    //    //    if (!result.isEmpty()){
-    //    //        count++;
-    //    //    }
-    //    //}
-    //    //System.out.println("getPercentage");
-    //    //System.out.println(count);
-    //    return count;
-    //
-    //}
-
-    //private void outputPopularItems(final int wId, final int dId, final int numOfOrders,
-    //                                List<Triple<Integer, Integer, String>> orderInfos,
-    //                                List<Triple<String, String, String>> customerInfos,
-    //                                List<Doubles<String, Float>> itemInfos,
-    //                                List<Doubles<String, Float>> percentageInfos) {
-    //    System.out.println("District Identifier WId: " + wId + ",DId: " + dId);
-    //    System.out.println("number of orders been examined: " + numOfOrders);
-    //    for (int i = 0; i < orderInfos.size(); i++) {
-    //        //Row order = lastOrders.get(i);
-    //
-    //        System.out.println("order Id: " + orderInfos.get(i).first);
-    //        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //Or whatever format fits best your needs.
-    //        //String dateStr = sdf.format(lastOrders.getTimestamp("o_entry_d"));
-    //        System.out.println("entry date and time: " + orderInfos.get(i).third);
-    //        System.out.println("customer name: " + customerInfos.get(i).first + " "
-    //                + customerInfos.get(i).second + " " + customerInfos.get(i).second);
-    //
-    //        for (int j = 0; j < itemInfos.size(); j++) {
-    //            System.out.println("item name: " + popularItemOfOrder.getString("ol_i_name"));
-    //            System.out.println("item quantity: " + (popularItemOfOrder.getBigDecimal("ol_quantity")).intValue());
-    //        }
-    //
-    //
-    //
-    //        //for (Row pitem: popularItemOfOrder.get(i)) {
-    //        //    System.out.println("item name: " + pitem.getString("ol_i_name"));
-    //        //    System.out.println("item quantity: " + (pitem.getDecimal("ol_quantity")).intValue());
-    //        //}
-    //    }
-    //    for (int i = 0; i < popularItemName.size(); i++) {
-    //        System.out.println("popular item percentage:");
-    //        System.out.println("item name: " + popularItemName.get(i));
-    //        double per = percentage[i] * 100.0 / numOfOrders;
-    //        System.out.println(String.format("percentage: %.2f", per));
-    //    }
-    //
-    //}
 
     class Doubles<T, U> {
         final T first;
@@ -303,6 +194,5 @@ public class PopularItemTransaction {
             return second;
         }
     }
-    /*  End of private methods */
 }
 
