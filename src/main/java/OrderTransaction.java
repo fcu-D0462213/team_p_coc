@@ -341,11 +341,17 @@ class OrderTransaction {
         //OrderTransaction orderTransaction = null;
         //PaymentTransaction paymentTransaction = null;
         //OrderStatusTransaction orderStatusTransaction = null;
-        StockLevelTransaction stockLevelTransaction = null;
+        //StockLevelTransaction stockLevelTransaction = null;
+        //DeliveryTransaction deliveryTransaction = null;
+        //PopularItemTransaction popularItemTransaction = null;
+        TopBalanceTransaction topBalanceTransaction = null;
         try {
             //orderTransaction = new OrderTransaction(ds.getConnection());
             //paymentTransaction = new PaymentTransaction(ds.getConnection());
-            stockLevelTransaction = new StockLevelTransaction(ds.getConnection());
+            //stockLevelTransaction = new StockLevelTransaction(ds.getConnection());
+            //deliveryTransaction = new DeliveryTransaction(ds.getConnection());
+            //popularItemTransaction = new PopularItemTransaction(ds.getConnection());
+            topBalanceTransaction = new TopBalanceTransaction(ds.getConnection());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -372,7 +378,11 @@ class OrderTransaction {
 
         //orderStatusTransaction.processOrderStatus(1, 1, 2207);
         //orderStatusTransaction.processOrderStatus(1, 1, 795);
-        stockLevelTransaction.processStockLevel(1,2,12,43);
-        stockLevelTransaction.processStockLevel(1,1,13,43);
+        //stockLevelTransaction.processStockLevel(1,2,12,43);
+        //stockLevelTransaction.processStockLevel(1,1,13,43);
+        //deliveryTransaction.processDelivery(1, 10);
+        //deliveryTransaction.processDelivery(1, 9);
+        //popularItemTransaction.popularItem(1, 2, 43);
+        topBalanceTransaction.topBalance();
     }
 }
