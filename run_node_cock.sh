@@ -14,7 +14,7 @@ mkdir -p ~/log
 
 for client_id in $(seq 1 $n_clients)
 do
-  if [ n_nodes==5 ]
+  if [ $n_nodes==5 ]
    then
      if [ $((client_id%5 + 1)) == $node_id ]
      then
@@ -23,7 +23,7 @@ do
         echo Node $node_id initiated Client $client_id
         fi
   fi
-  if [ n_nodes==4 ]
+  if [ $n_nodes==4 ]
   then
     if [ $((client_id%4 + 1)) == $node_id ]
      then
