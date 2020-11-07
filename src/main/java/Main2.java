@@ -78,7 +78,7 @@ public class Main2 {
                     System.out.println("Unsupported transaction type!");
             }
             long endTime = System.currentTimeMillis();
-            long time = startTime - endTime;
+            long time =  endTime -startTime;
             timeList.add(time);
         }
         Collections.sort(timeList);
