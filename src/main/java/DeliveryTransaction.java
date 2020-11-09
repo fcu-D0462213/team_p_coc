@@ -57,7 +57,7 @@ public class DeliveryTransaction {
         for (int dId = 1; dId <= 10; dId++) {
             Integer next_id = processSmallestOrder(wId, dId);
             if (next_id != null) {
-                System.out.println("Start delivery");
+                //System.out.println("Start delivery");
                 updateCarrier(wId, dId, next_id, carrierId);
                 BigDecimal olAmountSum = updateDatetime(wId, dId, next_id);
                 updateCustomer(wId, dId, next_id, olAmountSum);

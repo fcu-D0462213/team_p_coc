@@ -40,6 +40,7 @@ public class BasicExample {
         // Configure the database connection.
         PGSimpleDataSource ds = new PGSimpleDataSource();
         ds.setServerName("192.168.48.184");
+        //ds.setServerName("192.168.220.112");
         ds.setPortNumber(26257);
         ds.setDatabaseName("project");
         ds.setUser("test");
@@ -264,7 +265,7 @@ class BasicExampleDAO {
                 + " PRIMARY KEY (W_ID) "
                 + " );";
         String createDistrictsCmd = "CREATE TABLE IF NOT EXISTS" + " district ("
-                + " D_W_ID int, "
+                + " D_W_ID int REFERENCES warehouse (W_ID), "
                 + " D_ID int, "
                 + " D_NAME String, "
                 + " D_STREET_1 String, "
@@ -276,11 +277,12 @@ class BasicExampleDAO {
                 + " D_YTD decimal, "
                 + " D_NEXT_O_ID int, "
                 + " D_NEXT_DELIVER_O_ID int, "
-                + " PRIMARY KEY (D_W_ID, D_ID) "
+                + " PRIMARY KEY (D_W_ID, D_ID), "
+                + " INDEX (D_W_ID, D_ID) STORING (D_NEXT_O_ID)"
                 + " );";
         String createCustomersCmd = "CREATE TABLE IF NOT EXISTS" + " customer ("
-                + " C_W_ID int, "
-                + " C_D_ID int, "
+                + " C_W_ID int , "
+                + " C_D_ID int , "
                 + " C_ID int, "
                 + " C_FIRST String, "
                 + " C_MIDDLE String, "
@@ -302,7 +304,10 @@ class BasicExampleDAO {
                 + " C_DATA String, "
                 + " C_W_NAME String, "
                 + " C_D_NAME String, "
-                + " PRIMARY KEY (C_W_ID, C_D_ID, C_ID) "
+                + " PRIMARY KEY (C_W_ID, C_D_ID, C_ID), "
+                + " FOREIGN KEY (C_W_ID, C_D_ID) REFERENCES district (D_W_ID, D_ID), "
+                + " INDEX (C_W_ID, C_D_ID, C_ID) STORING (C_BALANCE), "
+                + " INDEX (C_W_ID, C_D_ID, C_ID) STORING (C_FIRST, C_MIDDLE, C_LAST)"
                 + " );";
 
 
@@ -315,7 +320,9 @@ class BasicExampleDAO {
                 + " O_OL_CNT decimal, "
                 + " O_ALL_LOCAL decimal, "
                 + " O_ENTRY_D timestamp, "
-                + " PRIMARY KEY (O_W_ID, O_D_ID, O_ID DESC) "
+                + " PRIMARY KEY (O_W_ID, O_D_ID, O_ID DESC), "
+                + " FOREIGN KEY (O_W_ID, O_D_ID, O_C_ID) REFERENCES customer (C_W_ID, C_D_ID, C_ID), "
+                + " INDEX (O_W_ID, O_D_ID, O_C_ID, O_ID)"
                 + " );";
 
 
@@ -325,7 +332,8 @@ class BasicExampleDAO {
                 + " I_PRICE decimal, "
                 + " I_IM_ID int, "
                 + " I_DATA String, "
-                + " PRIMARY KEY (I_ID) "
+                + " PRIMARY KEY (I_ID),"
+                + " INDEX (I_ID, I_NAME, I_PRICE) "
                 + " );";
 
         String createOrderLinesCmd = "CREATE TABLE IF NOT EXISTS" + " order_line ("
@@ -333,19 +341,20 @@ class BasicExampleDAO {
                 + " OL_D_ID int, "
                 + " OL_O_ID int, "
                 + " OL_NUMBER int, "
-                + " OL_I_ID int, "
+                + " OL_I_ID int REFERENCES item (I_ID), "
                 + " OL_DELIVERY_D timestamp, "
                 + " OL_AMOUNT decimal, "
                 + " OL_SUPPLY_W_ID int, "
                 + " OL_QUANTITY decimal, "
                 + " OL_DIST_INFO String, "
                 + " OL_I_NAME String, "
-                + " PRIMARY KEY (OL_W_ID, OL_D_ID, OL_O_ID DESC, OL_QUANTITY DESC, OL_NUMBER, OL_I_ID)"
+                + " PRIMARY KEY (OL_W_ID, OL_D_ID, OL_O_ID DESC, OL_QUANTITY DESC, OL_NUMBER, OL_I_ID), "
+                + " FOREIGN KEY (OL_W_ID, OL_D_ID, OL_O_ID) REFERENCES orders (O_W_ID, O_D_ID, O_ID) "
                 + " );";
 
         String createStocksCmd = "CREATE TABLE IF NOT EXISTS" + " stock ("
-                + " S_W_ID int, "
-                + " S_I_ID int, "
+                + " S_W_ID int REFERENCES warehouse (W_ID), "
+                + " S_I_ID int REFERENCES item (I_ID), "
                 + " S_QUANTITY decimal, "
                 + " S_YTD decimal, "
                 + " S_ORDER_CNT int, "
@@ -363,7 +372,8 @@ class BasicExampleDAO {
                 + " S_DATA String, "
                 + " S_I_NAME String, "
                 + " S_I_PRICE decimal, "
-                + " PRIMARY KEY (S_W_ID, S_I_ID) "
+                + " PRIMARY KEY (S_W_ID, S_I_ID), "
+                + " INDEX (S_W_ID, S_I_ID) STORING (S_QUANTITY)"
                 + " );";
         //runSQL("CREATE TABLE IF NOT EXISTS accounts (id INT PRIMARY KEY, balance INT, CONSTRAINT balance_gt_0 CHECK (balance >= 0))");
         runSQL(createWarehousesCmd);
@@ -436,6 +446,7 @@ class BasicExampleDAO {
             try {
                 System.out.println("Start loading data for table : warehouses");
                 FileReader fr = new FileReader("/temp/team_p/node1/extern/warehouse.csv");
+                //FileReader fr = new FileReader("project-files2/data-files/warehouse.csv");
                 BufferedReader bf = new BufferedReader(fr);
                 while ((line = bf.readLine()) != null) {
                     lineData = line.split(",");
@@ -480,6 +491,7 @@ class BasicExampleDAO {
             try {
                 System.out.println("Start loading data for table : districts");
                 fr = new FileReader("/temp/team_p/node1/extern/district-aug.csv");
+                //fr = new FileReader("project-files2/data-files/district-aug.csv");
                 bf = new BufferedReader(fr);
 
                 while ((line = bf.readLine()) != null) {
@@ -537,6 +549,7 @@ class BasicExampleDAO {
                 + "    CSV DATA ("
                 + "      'nodelocal:///order.csv'" +
                 "    )  WITH nullif = '';";
+                //"    )  WITH nullif = 'null';";
         try {
             Connection connection = ds.getConnection();
             System.out.println("Start loading data for table : orders");
@@ -1050,23 +1063,15 @@ class BasicExampleDAO {
         runSQL("DROP VIEW IF EXISTS customer_sort_by_balance;");
         runSQL("DROP VIEW IF EXISTS order_sort_by_customer;");
         runSQL("DROP VIEW IF EXISTS order_line_by_item;");
-        runSQL("DROP TABLE IF EXISTS warehouse;");
-        runSQL("DROP TABLE IF EXISTS district;");
-        runSQL("DROP TABLE IF EXISTS customer;");
-        runSQL("DROP TABLE IF EXISTS orders;");
-        runSQL("DROP TABLE IF EXISTS item;");
+
         runSQL("DROP TABLE IF EXISTS order_line;");
         runSQL("DROP TABLE IF EXISTS stock;");
+        runSQL("DROP TABLE IF EXISTS item;");
+        runSQL("DROP TABLE IF EXISTS orders;");
+        runSQL("DROP TABLE IF EXISTS customer;");
+        runSQL("DROP TABLE IF EXISTS district;");
+        runSQL("DROP TABLE IF EXISTS warehouse;");
 
-        //runSQL("DROP VIEW IF EXISTS customers_balances;");
-        //runSQL("DROP TABLE IF EXISTS warehouses;");
-        //runSQL("DROP TABLE IF EXISTS districts;");
-        //runSQL("DROP TABLE IF EXISTS customers;");
-        //runSQL("DROP TABLE IF EXISTS orders_by_timestamp;");
-        //runSQL("DROP TABLE IF EXISTS orders_by_id;");
-        //runSQL("DROP TABLE IF EXISTS items;");
-        //runSQL("DROP TABLE IF EXISTS order_lines;");
-        //runSQL("DROP TABLE IF EXISTS stocks;");
 
     }
 }

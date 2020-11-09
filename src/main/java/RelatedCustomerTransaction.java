@@ -70,7 +70,7 @@ public class RelatedCustomerTransaction {
                 String iIdarray = sb.toString();
                 //iIdArray = iArray.toArray();
                 //Array iIdarray = connection.createArrayOf("Integer", iIdArray);
-                System.out.println(iIdarray);
+                //System.out.println(iIdarray);
                 System.out.println("Customer identifier: " + w_ID + " " + d_ID + " " + c_ID);
                 get_related_customer(w_ID, iIdarray);
             }
@@ -110,7 +110,7 @@ public class RelatedCustomerTransaction {
                 } else {
                     while (resultSet2.next()){
                         int o_c_id = resultSet2.getInt("o_c_id");
-                        System.out.println("Identifier info: ol_w_id: " + ol_w_id + " &ol_d_id: " + ol_d_id + " &o_c_id: " + o_c_id);
+                        System.out.println("Identifier info: ol_w_id: " + ol_w_id + " & ol_d_id: " + ol_d_id + " & o_c_id: " + o_c_id);
                     }
                 }
 

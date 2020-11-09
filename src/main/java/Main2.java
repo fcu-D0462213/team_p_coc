@@ -1,10 +1,12 @@
 
 
+import org.apache.commons.math3.stat.StatUtils;
+import org.apache.commons.math3.stat.descriptive.rank.Median;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintWriter;
-import java.lang.reflect.Array;
 import java.util.*;
 
 
@@ -28,8 +30,8 @@ public class Main2 {
             e.printStackTrace();
         }
         Scanner sc = new Scanner(bf);
-        String line;
         String[] lineData;
+        long totalStartTime = System.currentTimeMillis();
         while (sc.hasNext()) {
             //transactionCount++;
             lineData = sc.nextLine().split(",");
@@ -81,27 +83,21 @@ public class Main2 {
             long time =  endTime -startTime;
             timeList.add(time);
         }
+        long totalEndTime = System.currentTimeMillis();
         Collections.sort(timeList);
 
-        long totalTran = timeList.size();
-        long totalTimeMs = 0;
-        long mediaTran = 0;
-        long tran95 = 0;
-        long tran99 = 0;
-        for (int i = 0; i < totalTran; i++) {
-            totalTimeMs += timeList.get(i);
-            if (i == totalTran / 2) {
-                mediaTran = timeList.get(i);
-            }
-            if (i == 94) {
-                tran95 = timeList.get(i);
-            }
-            if (i == 98) {
-                tran99 = timeList.get(i);
-            }
+        double[] timeArray = new double[timeList.size()];
+        for (int i = 0; i <timeList.size() ; i++) {
+            timeArray[i] = timeList.get(i);
         }
+        long totalTran = timeList.size();
+        long totalTimeMs = totalEndTime-totalStartTime;
+        Median median = new Median();
+        double mediaTran = median.evaluate(timeArray);
+        double tran95 = StatUtils.percentile(timeArray,95.0);
+        double tran99 = StatUtils.percentile(timeArray,99.0);
         double totalTimeSe = (double) totalTimeMs / 1000;
-        double throughput = totalTran / totalTimeSe;
+        double throughput = (double) totalTran / totalTimeSe;
         double avaLatency = (double) totalTimeMs / totalTran;
 
         PrintWriter out = null;
