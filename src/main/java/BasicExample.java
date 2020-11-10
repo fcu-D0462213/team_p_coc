@@ -47,7 +47,6 @@ public class BasicExample {
         ds.setPassword(null);
         ds.setReWriteBatchedInserts(true); // add `rewriteBatchedInserts=true` to pg connection string
         ds.setApplicationName("BasicExample");
-
         // Create DAO.
         BasicExampleDAO dao = new BasicExampleDAO(ds);
 

@@ -34,7 +34,7 @@ class OrderTransaction {
                     + " FROM customer "
                     + " WHERE C_W_ID = ? AND C_D_ID = ? AND C_ID = ?; ";
     private static final String INSERT_ORDER =
-            " INSERT INTO orders ("
+            " UPSERT INTO orders ("
                     + " O_ID, O_D_ID, O_W_ID, O_C_ID, O_ENTRY_D, O_OL_CNT, O_ALL_LOCAL) "
                     + " VALUES (?, ?, ?, ?, ?, ?, ?); ";
     private static final String SELECT_STOCK =

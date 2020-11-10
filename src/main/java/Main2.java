@@ -109,6 +109,7 @@ public class Main2 {
         out.print(totalTran + "," + totalTimeSe + "," + throughput + "," +
                 mediaTran + "," + avaLatency + "," + tran95 + "," + tran99);
         out.close();
+
     }
 
 }
